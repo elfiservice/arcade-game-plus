@@ -4,7 +4,7 @@ You need to cross the stone floor until you reach the water **avoiding the enemy
 ## How get to Start
 * Just Download or Clone this repository to your Local Folder
 * And open de index.html file to start
-* Or test right [HERE](https://elfiservice.github.io/frontend-nanodegree-arcade-game/)
+* Or test right [HERE](https://elfiservice.github.io/arcade-game-plus/)
 
 ## How to Play
 * You moviment the Player typing the key Up, Down, Left and Right
