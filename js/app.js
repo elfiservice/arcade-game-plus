@@ -1,5 +1,6 @@
 var TILE_WIDTH = 100;
 var TILE_HEIGHT = 82;
+// #### ENEMY class constructor ####
 // Enemies our player must avoid
 // Parameter: x and y, to mark the Start Position and
 // speed to mark how fast he`d be
@@ -64,7 +65,7 @@ Enemy.prototype.checkCollisions = function(){
 };
 
 /*
-    Player class constructor
+    #### PLAYER class constructor ####
     Sprits the image of the Player and
     Invoke the Start Position of the Player into the canvas
 */
@@ -78,15 +79,23 @@ var Player = function (){
 Player.prototype.startPosition = function (){
     this.x = 203.5;
     this.y = 400;
+
 };
 /*
     Cheking IF the Player Arrived on the Water in the Canvas game, He Win!
     Then, he is back to the Start Position after 500ms
 */
 Player.prototype.update = function(){
+    
     var self = this;
-    if( this.y === -10) {
-        setTimeout(function(){ self.startPosition(); }, 500);
+    if( this.y === -10) {   
+
+        setTimeout(function(){ 
+            self.startPosition(); 
+            let nextLevel = game.level.setLevel();  
+            nextLevel();
+        }, 500);
+
     }
 };
 /*
@@ -113,35 +122,102 @@ Player.prototype.handleInput = function(keyCode){
     }
 };
 
+//    #### GAME class constructor ####
 //game information
-function Level(){
-    this.label = "Level";
-    this.number = 1;
+class Game {
+    constructor() {
+        this.player = new Player();
+        this.level = new Level();
+    }
+
 
 }
 
-Level.prototype.render = function(){
-    ctx.fillStyle = "white";
-            ctx.font = "20px Arial";
-    ctx.fillText(this.label + ": " + this.number, 400, 80);
+class Level {
+    constructor(levelNumber = 1) {
+        this.levelNumber = levelNumber;
+        this.enemys = [];
+        this.executed = false;
+    }
+
+    render() {
+        ctx.fillStyle = "white";
+        ctx.font = "20px Arial";
+        ctx.fillText("Level : " + this.levelNumber, 400, 80);
+    }
+
+    setLevel() {
+
+        return () => {
+            if(!this.executed) {
+                this.executed = true;
+                this.levelNumber++;
+                this.getLevel();
+                allEnemies = this.enemys;
+               
+            }
+        }        
+    }
+
+    update() {
+       
+    }
+
+    getLevel() {
+        let levelNumber = this.levelNumber;
+
+        switch(levelNumber) {
+            case 1: 
+                this.enemys = [
+                    new Enemy(0,50, 50),
+                    new Enemy(-250,150, 100),
+                    new Enemy(-100,225, 80)
+                ];
+            break;
+            case 2:
+                this.enemys = [
+                    new Enemy(0,50, 50),
+                    new Enemy(-250,150, 100),
+                    new Enemy(-100,225, 80),
+                    new Enemy(-550,150, 160),
+                    new Enemy(-1000,225, 280)
+                ];
+            break;
+            case 3:
+            this.enemys = [
+                new Enemy(0,50, 50),
+                new Enemy(-250,150, 100),
+                new Enemy(-100,225, 80),
+                new Enemy(-200,50, 350),
+                new Enemy(-550,150, 160),
+                new Enemy(-1000,225, 280),
+                new Enemy(-400,225, 80),
+            ];
+        break;
+        }
+        setTimeout(() => {
+            this.executed = false;
+        }, 1000);
+    }
 }
 
+// new Enemy(0,50, 50),
+// new Enemy(-250,150, 100),
+// new Enemy(-100,225, 80),
+// new Enemy(-200,50, 350),
+// new Enemy(-550,150, 160),
+// new Enemy(-1000,225, 280)
 
 
+// Player object in a variable called player
+// var player = new Player();
+var game = new Game();
+var player = game.player;
+var level = game.level;
 // instantiate objects
 // Enemy objects in an array called allEnemies
-var allEnemies = [
-    new Enemy(0,50, 50),
-    new Enemy(-250,150, 100),
-    new Enemy(-100,225, 80),
-    new Enemy(-200,50, 350),
-    new Enemy(-550,150, 160),
-    new Enemy(-1000,225, 280)
-];
-// Player object in a variable called player
-var player = new Player();
-
-var level = new Level();
+game.level.getLevel();
+var allEnemies = game.level.enemys;
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
