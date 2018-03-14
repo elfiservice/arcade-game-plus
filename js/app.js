@@ -69,58 +69,63 @@ class Enemy {
     Sprits the image of the Player and
     Invoke the Start Position of the Player into the canvas
 */
-var Player = function (){
-    this.startPosition();
-    this.sprite = "images/char-boy.png";
-};
-/*
-    Marking the Start Position of the Player
-*/
-Player.prototype.startPosition = function (){
-    this.x = 203.5;
-    this.y = 400;
+class Player {
+    constructor() {
+        this._x = 203.5;
+        this._y = 400;
+        this.x = this._x;
+        this.y = this._y;
+        this.sprite = "images/char-boy.png";
+    }
 
-};
-/*
-    Cheking IF the Player Arrived on the Water in the Canvas game, He Win!
-    Then, he is back to the Start Position after 500ms
-*/
-Player.prototype.update = function(){
+    startPosition() {
+        this.x = this._x;
+        this.y = this._y;
+    }
+
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
+
+    update() {
+        /*
+        Cheking IF the Player Arrived on the Water in the Canvas game, He Win!
+        Then, he is back to the Start Position after 500ms
+        */
+        var self = this;
+        if( this.y === -10) {   
     
-    var self = this;
-    if( this.y === -10) {   
-
-        setTimeout(function(){ 
-            self.startPosition(); 
-            let nextLevel = game.level.setLevel();  
-            nextLevel();
-        }, 500);
-
+            setTimeout(function(){ 
+                self.startPosition(); 
+                let nextLevel = game.level.setLevel();  
+                nextLevel();
+            }, 500);
+    
+        }
     }
-};
-/*
-    Draw the Player on the screen
-*/
-Player.prototype.render = function(){
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
-};
-/*
-    Receiving the pressed key and moving the Player on the Canvas
-    Parameter: keyCode, indicate Which direction the Player have to go
-    (up, down, left or right)
-*/
-Player.prototype.handleInput = function(keyCode){
-    if( keyCode === "up" && this.y > -5){
-        this.y -= TILE_HEIGHT;
-    } else if (keyCode === "down" && this.y < 400){
-        this.y += TILE_HEIGHT;
-    } else if (keyCode === "left" && this.x > 3.5) {
-        this.x -= TILE_WIDTH;
-    } else if (keyCode === "right" && this.x < 400) {
-        this.x += TILE_WIDTH;
+    handleInput(keyCode) {
+        /*
+        Receiving the pressed key and moving the Player on the Canvas
+        Parameter: keyCode, indicate Which direction the Player have to go
+        (up, down, left or right)
+        */   
+        if( keyCode === "up" && this.y > -5){
+            this.y -= TILE_HEIGHT;
+        } else if (keyCode === "down" && this.y < 400){
+            this.y += TILE_HEIGHT;
+        } else if (keyCode === "left" && this.x > 3.5) {
+            this.x -= TILE_WIDTH;
+        } else if (keyCode === "right" && this.x < 400) {
+            this.x += TILE_WIDTH;
+        }
     }
-};
+}
+
+
+
+
+
 
 //    #### GAME class constructor ####
 //game information
