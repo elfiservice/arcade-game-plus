@@ -4,65 +4,65 @@ var TILE_HEIGHT = 82;
 // Enemies our player must avoid
 // Parameter: x and y, to mark the Start Position and
 // speed to mark how fast he`d be
-var Enemy = function(x, y, speed) {
-    // Variables applied to each of our instances go here,
-    // Setting start Position and Speed of each Enemy
-    this.x = x;
-    this.y = y;
-    this.speed = speed;
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
-};
-
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
-    /*
-    multiply any movement by the dt parameter
-    which will ensure the game runs at the same speed forall computers.
-
-    when the Enemy stay out off the screen (canvas) on the x position > than 505
-    He back to the start of the canvas with a Random negative number
-
-    If your position is less than 505 He is keep going ahead and
-    checking Collisions with the player, invoking the method checkCollisions()
-    */
-    if (this.x < 505) {
-        this.x +=  (this.speed * dt );
-        this.checkCollisions();
-    } else {
-        this.x = Math.floor((Math.random() * 500) + 100) * -1;
+class Enemy {
+    constructor(x, y, speed) {
+        // Variables applied to each of our instances go here,
+        // Setting start Position and Speed of each Enemy
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+        // The image/sprite for our enemies, this uses
+        // a helper we've provided to easily load images
+        this.sprite = 'images/enemy-bug.png';
     }
-};
 
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+    update(dt) {
+        /*
+        multiply any movement by the dt parameter
+        which will ensure the game runs at the same speed forall computers.
 
-//Checking the collisions with Player, invoked from Enemy`s update method
-Enemy.prototype.checkCollisions = function(){
-    //selecting the point of the contact of the Enemy with the Player
-    //(The Beak until the Tail of Enemy)
-    var enemyTail = this.x;
-    var enemyBeak = this.x + 75;
-    var enemyHeight = this.y;
-    var playerPositionHorizt = player.x;
-    var playerPositionVert = player.y;
+        when the Enemy stay out off the screen (canvas) on the x position > than 505
+        He back to the start of the canvas with a Random negative number
 
-    /*
-        cheking IF the Player toch the Beak or the Tail of the Enemy, being True,
-        cheking IF both are in the same Hight (position vertical)
-        Then, moving the Player to Start Position, He die.
-    */
-    if ( enemyBeak > playerPositionHorizt && enemyTail <= (playerPositionHorizt + 30)){
-        if ( (playerPositionVert == 72 && enemyHeight == 50) || (playerPositionVert == 154 && enemyHeight == 150) || (playerPositionVert == 236 && enemyHeight == 225)) {
-            player.startPosition();
+        If your position is less than 505 He is keep going ahead and
+        checking Collisions with the player, invoking the method checkCollisions()
+        */
+        if (this.x < 505) {
+            this.x +=  (this.speed * dt );
+            this.checkCollisions();
+        } else {
+            this.x = Math.floor((Math.random() * 500) + 100) * -1;
         }
-
     }
-};
+
+    render() {
+        // Draw the enemy on the screen, required method for game
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
+
+    checkCollisions() { //Checking the collisions with Player, invoked from Enemy`s update method
+        //selecting the point of the contact of the Enemy with the Player
+        //(The Beak until the Tail of Enemy)
+        var enemyTail = this.x;
+        var enemyBeak = this.x + 75;
+        var enemyHeight = this.y;
+        var playerPositionHorizt = player.x;
+        var playerPositionVert = player.y;
+
+        /*
+            cheking IF the Player toch the Beak or the Tail of the Enemy, being True,
+            cheking IF both are in the same Hight (position vertical)
+            Then, moving the Player to Start Position, He die.
+        */
+        if ( enemyBeak > playerPositionHorizt && enemyTail <= (playerPositionHorizt + 30)){
+            if ( (playerPositionVert == 72 && enemyHeight == 50) || (playerPositionVert == 154 && enemyHeight == 150) || (playerPositionVert == 236 && enemyHeight == 225)) {
+                player.startPosition();
+            }
+
+        }
+    }
+}
+
 
 /*
     #### PLAYER class constructor ####
@@ -218,6 +218,7 @@ var level = game.level;
 // Enemy objects in an array called allEnemies
 game.level.getLevel();
 var allEnemies = game.level.enemys;
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
