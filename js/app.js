@@ -206,20 +206,23 @@ class Level {
     }
 }
 
-// new Enemy(0,50, 50),
-// new Enemy(-250,150, 100),
-// new Enemy(-100,225, 80),
-// new Enemy(-200,50, 350),
-// new Enemy(-550,150, 160),
-// new Enemy(-1000,225, 280)
+
+
+//store 
+
+let im2 = window.Resources.load(['images/grass-block.png']);
+
+let img = window.Resources.get('images/grass-block.png');
+console.log(im2);
+
+
+
 
 
 // Player object in a variable called player
-// var player = new Player();
 var game = new Game();
 var player = game.player;
 var level = game.level;
-// instantiate objects
 // Enemy objects in an array called allEnemies
 game.level.getLevel();
 var allEnemies = game.level.enemys;
