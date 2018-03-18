@@ -1,3 +1,8 @@
+console.log(window);
+let x = window.Engine;
+console.log(x);
+
+
 var TILE_WIDTH = 100;
 var TILE_HEIGHT = 82;
 // #### ENEMY class constructor ####
@@ -70,12 +75,12 @@ class Enemy {
     Invoke the Start Position of the Player into the canvas
 */
 class Player {
-    constructor() {
+    constructor(char) {
         this._x = 203.5;
         this._y = 400;
         this.x = this._x;
         this.y = this._y;
-        this.sprite = "images/char-boy.png";
+        this.sprite = char;
     }
 
     startPosition() {
@@ -122,16 +127,11 @@ class Player {
     }
 }
 
-
-
-
-
-
 //    #### GAME class constructor ####
 //game information
 class Game {
-    constructor() {
-        this.player = new Player();
+    constructor(char) {
+        this.player = new Player(char);
         this.level = new Level();
     }
 
@@ -208,24 +208,55 @@ class Level {
 
 
 
-//store 
+//store chars to user can choise to play
+const chars = [
+    'images/char-boy.png',
+    'images/char-pink-girl.png'
+];
 
-let im2 = window.Resources.load(['images/grass-block.png']);
+const gameInfElement = document.querySelector('.game_info');
+const charsViewElement = document.createElement('div');
+charsViewElement.setAttribute('class', 'chars_choise');
+charsViewElement.innerHTML = '<h3>Choise your Player</h3>';
 
-let img = window.Resources.get('images/grass-block.png');
-console.log(im2);
+for(let i = 0; i < chars.length; i++) {
+    const imgElement = document.createElement('img');
+    imgElement.setAttribute('src', chars[i]);
+    charsViewElement.appendChild(imgElement);
+}
+
+gameInfElement.appendChild(charsViewElement);
 
 
+var game = new Game('images/char-boy.png');
+console.log(game);
 
-
-
-// Player object in a variable called player
-var game = new Game();
 var player = game.player;
 var level = game.level;
 // Enemy objects in an array called allEnemies
 game.level.getLevel();
 var allEnemies = game.level.enemys;
+
+charsViewElement.onclick = function(e) {
+    
+   let cardChoiced = e.toElement.attributes["0"].nodeValue;
+
+    // Player object in a variable called player
+     game = new Game(cardChoiced);
+    console.log(game);
+
+     player = game.player;
+     level = game.level;
+    // Enemy objects in an array called allEnemies
+    game.level.getLevel();
+    allEnemies = game.level.enemys;
+
+    const modalGameElement = document.querySelector('.start_game_modal');
+    modalGameElement.classList.add('hide');
+        
+}
+
+
 
 
 // This listens for key presses and sends the keys to your

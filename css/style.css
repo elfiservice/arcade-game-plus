@@ -13,7 +13,7 @@ body {
     z-index: 101;
 }
 
-.wc_contact_modal_content {
+.modal_content {
     display: block;
     width: 540px;
     max-width: 90%;
@@ -25,4 +25,30 @@ body {
     position: relative;
     padding: 30px;
     min-height: 200px;
+}
+
+.game_info {
+    background-color: #e4e4e4;
+    padding: 20px;
+    box-shadow: 3px 2px 8px #ccc;
+}
+
+.chars_choise img {
+    cursor: pointer;
+    margin: 0 20px;
+    border-radius: 5px;
+    background-color: #ccc;
+}
+
+.chars_choise img:hover {
+    background-color: #bdecb5;
+    box-shadow: 3px 2px 8px #ccc;
+}
+
+.chars_choise img:active {
+    background-color: #88ef7d;
+}
+
+.hide {
+    display: none;
 }
