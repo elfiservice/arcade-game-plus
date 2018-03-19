@@ -1,10 +1,9 @@
-console.log(window);
-let x = window.Engine;
-console.log(x);
-
-
 var TILE_WIDTH = 100;
 var TILE_HEIGHT = 82;
+var game = "";
+var player = "";
+var level = "";
+var allEnemies = [];
 // #### ENEMY class constructor ####
 // Enemies our player must avoid
 // Parameter: x and y, to mark the Start Position and
@@ -228,14 +227,13 @@ for(let i = 0; i < chars.length; i++) {
 gameInfElement.appendChild(charsViewElement);
 
 
-var game = new Game('images/char-boy.png');
-console.log(game);
+// var game = new Game('images/char-boy.png');
 
-var player = game.player;
-var level = game.level;
-// Enemy objects in an array called allEnemies
-game.level.getLevel();
-var allEnemies = game.level.enemys;
+// var player = game.player;
+// var level = game.level;
+// // Enemy objects in an array called allEnemies
+// game.level.getLevel();
+// var allEnemies = game.level.enemys;
 
 charsViewElement.onclick = function(e) {
     
