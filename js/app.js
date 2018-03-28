@@ -60,6 +60,7 @@ class Enemy {
         */
         if ( enemyBeak > playerPositionHorizt && enemyTail <= (playerPositionHorizt + 30)){
             if ( (playerPositionVert == 72 && enemyHeight == 50) || (playerPositionVert == 154 && enemyHeight == 150) || (playerPositionVert == 236 && enemyHeight == 225)) {
+                player.setLives(-1);
                 player.startPosition();
             }
 
@@ -80,6 +81,8 @@ class Player {
         this.x = this._x;
         this.y = this._y;
         this.sprite = char;
+        this._spritLives = 'images/Heart.png';
+        this._lives = 3;
     }
 
     startPosition() {
@@ -89,6 +92,8 @@ class Player {
 
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        this.getLives()();
+
     }
 
     update() {
@@ -106,6 +111,39 @@ class Player {
             }, 500);
     
         }
+    }
+
+    getLives() {
+        switch(this._lives) {
+            case 3:  
+           return (function(){
+                this.drawLives(40);
+                this.drawLives(80);
+                this.drawLives(120);
+            }).bind(this);
+
+            break;
+            case 2:  
+            return (function(){
+                this.drawLives(40);
+                this.drawLives(80);
+            }).bind(this);
+            break;
+            case 1:  
+            return (function(){
+                this.drawLives(40);
+            }).bind(this);
+            break;
+        }
+
+    }
+
+    drawLives(pos) {
+        return ctx.drawImage(Resources.get(this._spritLives), pos, 50, 30,50);
+    }
+
+    setLives(num) {
+        this._lives += num;
     }
 
     handleInput(keyCode) {
@@ -134,6 +172,9 @@ class Game {
         this.level = new Level();
     }
 
+    render() {
+    //    this.player.getLives();
+    }
 
 }
 
@@ -228,13 +269,16 @@ function init() {
     //when select the char to player
     charsViewElement.onclick = function(e) {
         
-    let cardChoiced = e.toElement.attributes["0"].nodeValue;
+        let cardChoiced = e.toElement.attributes["0"].nodeValue;
 
         // Player object in a variable called player
         game = new Game(cardChoiced);
         console.log(game);
 
         player = game.player;
+        
+        console.log(player);
+        
         level = game.level;
         // Enemy objects in an array called allEnemies
         game.level.getLevel();
