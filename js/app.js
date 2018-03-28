@@ -206,52 +206,44 @@ class Level {
 }
 
 
+function init() {
+    //store chars to user can choise to play
+    const chars = [
+        'images/char-boy.png',
+        'images/char-pink-girl.png'
+    ];
 
-//store chars to user can choise to play
-const chars = [
-    'images/char-boy.png',
-    'images/char-pink-girl.png'
-];
+    const gameInfElement = document.querySelector('.game_info');
+    const charsViewElement = document.createElement('div');
+    charsViewElement.setAttribute('class', 'chars_choise');
+    charsViewElement.innerHTML = '<h3>Choise your Player</h3>';
 
-const gameInfElement = document.querySelector('.game_info');
-const charsViewElement = document.createElement('div');
-charsViewElement.setAttribute('class', 'chars_choise');
-charsViewElement.innerHTML = '<h3>Choise your Player</h3>';
+    for(let i = 0; i < chars.length; i++) {
+        const imgElement = document.createElement('img');
+        imgElement.setAttribute('src', chars[i]);
+        charsViewElement.appendChild(imgElement);
+    }
+    gameInfElement.appendChild(charsViewElement);
 
-for(let i = 0; i < chars.length; i++) {
-    const imgElement = document.createElement('img');
-    imgElement.setAttribute('src', chars[i]);
-    charsViewElement.appendChild(imgElement);
-}
-
-gameInfElement.appendChild(charsViewElement);
-
-
-// var game = new Game('images/char-boy.png');
-
-// var player = game.player;
-// var level = game.level;
-// // Enemy objects in an array called allEnemies
-// game.level.getLevel();
-// var allEnemies = game.level.enemys;
-
-charsViewElement.onclick = function(e) {
-    
-   let cardChoiced = e.toElement.attributes["0"].nodeValue;
-
-    // Player object in a variable called player
-     game = new Game(cardChoiced);
-    console.log(game);
-
-     player = game.player;
-     level = game.level;
-    // Enemy objects in an array called allEnemies
-    game.level.getLevel();
-    allEnemies = game.level.enemys;
-
-    const modalGameElement = document.querySelector('.start_game_modal');
-    modalGameElement.classList.add('hide');
+    //when select the char to player
+    charsViewElement.onclick = function(e) {
         
+    let cardChoiced = e.toElement.attributes["0"].nodeValue;
+
+        // Player object in a variable called player
+        game = new Game(cardChoiced);
+        console.log(game);
+
+        player = game.player;
+        level = game.level;
+        // Enemy objects in an array called allEnemies
+        game.level.getLevel();
+        allEnemies = game.level.enemys;
+
+        const modalGameElement = document.querySelector('.start_game_modal');
+        modalGameElement.classList.add('hide');
+            
+    }
 }
 
 
@@ -269,3 +261,6 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+//star game
+init();
